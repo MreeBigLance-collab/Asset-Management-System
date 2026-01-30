@@ -1,0 +1,79 @@
+.form {
+	max-width: 400px;
+	margin: 60px auto;
+	padding: 40px;
+	border: none;
+	border-radius: 10px;
+	background: white;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	box-shadow: 0 4px 16px rgba(157, 78, 221, 0.15);
+	position: relative;
+	z-index: 10;
+}
+.form h2 {
+	margin: 0 0 8px 0;
+	color: #7209b7;
+	text-align: center;
+	font-size: 22px;
+	font-weight: 700;
+}
+.form div {
+	display: flex;
+	flex-direction: column;
+}
+.form input {
+	padding: 12px;
+	border: 1px solid #ddd;
+	border-radius: 6px;
+	font-size: 14px;
+	transition: all 0.2s;
+	pointer-events: auto;
+}
+.form input:focus {
+	outline: none;
+	border-color: #9d4edd;
+	box-shadow: 0 0 0 2px rgba(157, 78, 221, 0.1);
+}
+.form input:disabled {
+	background: #f5f5f5;
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+.form button {
+	padding: 12px;
+	background: linear-gradient(135deg, #9d4edd 0%, #7209b7 100%);
+	color: white;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	font-weight: 600;
+	font-size: 14px;
+	transition: all 0.2s;
+	margin-top: 12px;
+	pointer-events: auto;
+	z-index: 20;
+	position: relative;
+}
+.form button:hover:not(:disabled) {
+	opacity: 0.9;
+	box-shadow: 0 2px 8px rgba(157, 78, 221, 0.3);
+	transform: translateY(-1px);
+}
+.form button:active:not(:disabled) {
+	transform: translateY(0);
+}
+.form button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+.error {
+	color: #e81828;
+	font-size: 13px;
+	padding: 10px;
+	background: #ffe6e6;
+	border-radius: 4px;
+	margin-bottom: 8px;
+	border-left: 3px solid #e81828;
+}

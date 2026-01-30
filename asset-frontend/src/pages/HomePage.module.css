@@ -1,0 +1,21 @@
+.container { min-height: 100vh; display: flex; background: #f8f7fb; }
+
+.header { background: linear-gradient(135deg, #9d4edd 0%, #7209b7 100%); color: white; padding: 16px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); position: fixed; top: 0; left: 0; right: 0; z-index: 100; }
+.header h1 { margin: 0; font-size: 24px; font-weight: 700; }
+
+.nav { width: 250px; background: linear-gradient(180deg, #5a189a 0%, #3c096c 100%); color: white; padding: 80px 0 20px 0; position: fixed; top: 0; left: 0; height: 100vh; box-shadow: 2px 0 8px rgba(0,0,0,0.1); overflow-y: auto; z-index: 99; }
+.navLink { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #e0aaff; padding: 12px 16px; margin: 4px 8px; border-radius: 6px; transition: all 0.2s; font-weight: 500; }
+.navLink:hover { background: rgba(255,255,255,0.1); color: white; padding-left: 20px; }
+
+.main { flex: 1; margin-left: 250px; margin-top: 60px; padding: 20px; }
+.main h2 { color: #5a189a; margin-top: 0; }
+
+.userInfo { display: flex; gap: 12px; align-items: center; position: fixed; top: 16px; right: 20px; z-index: 101; }
+.userInfo span { color: white; font-weight: 500; }
+.logoutBtn { padding: 6px 12px; background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+.logoutBtn:hover { background: rgba(255,255,255,0.3); }
+
+@media (max-width: 768px) {
+	.nav { width: 200px; }
+	.main { margin-left: 200px; }
+}
