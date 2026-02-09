@@ -1,7 +1,14 @@
 .form { max-width: 600px; margin: 0 auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-.form h3 { color: #7209b7; margin-top: 0; margin-bottom: 16px; font-size: 18px; font-weight: 700; }
-.form input, .form select, .form textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; margin-bottom: 12px; font-family: inherit; }
-.form input:focus, .form select:focus, .form textarea:focus { outline: none; border-color: #9d4edd; box-shadow: 0 0 0 2px rgba(157, 78, 221, 0.1); }
-.form button { padding: 10px 16px; background: linear-gradient(135deg, #9d4edd 0%, #7209b7 100%); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; margin-right: 8px; transition: all 0.2s; }
-.form button:hover { opacity: 0.9; }
-.form button[type="button"] { background: #f0f0f0; color: #333; }
+.form h3 { color: #7209b7; margin-top: 0; margin-bottom: 20px; font-size: 18px; font-weight: 700; }
+
+.formGroup { margin-bottom: 16px; display: flex; flex-direction: column; }
+.formGroup label { font-size: 13px; color: #7209b7; text-transform: uppercase; font-weight: 600; margin-bottom: 6px; }
+.formGroup input, .formGroup select, .formGroup textarea { padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; transition: all 0.2s; font-family: inherit; }
+.formGroup input:focus, .formGroup select:focus, .formGroup textarea:focus { outline: none; border-color: #9d4edd; box-shadow: 0 0 0 2px rgba(157, 78, 221, 0.1); }
+.formGroup textarea { resize: vertical; min-height: 80px; }
+
+.buttonGroup { display: flex; gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #f0f0f0; }
+.form button[type="submit"] { flex: 1; padding: 10px; background: linear-gradient(135deg, #9d4edd 0%, #7209b7 100%); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.2s; }
+.form button[type="submit"]:hover { opacity: 0.9; box-shadow: 0 2px 8px rgba(157, 78, 221, 0.3); }
+.cancelBtn { flex: 1; padding: 10px; background: #f0f0f0; color: #333; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.2s; }
+.cancelBtn:hover { background: #e0e0e0; }

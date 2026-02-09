@@ -14,20 +14,26 @@ export default function HomePage({ children }) {
 					<button onClick={logout} className={styles.logoutBtn}>Logout</button>
 				</div>
 			</header>
+			
 			<nav className={styles.nav}>
 				<Link to="/home" className={styles.navLink}>🏠 Home</Link>
 				<Link to="/dashboard" className={styles.navLink}>📊 Dashboard</Link>
 				<Link to="/assets" className={styles.navLink}>📋 Assets</Link>
 				<Link to="/assets/new" className={styles.navLink}>➕ Add Asset</Link>
 			</nav>
-			{children ? (
-				children
-			) : (
-				<main className={styles.main}>
-					<h2>Welcome, {user?.username}!</h2>
-					<p>Select an option from the navigation above to get started.</p>
-				</main>
-			)}
+
+			<main className={styles.main}>
+				<div className={styles.contentContainer}>
+					{children ? (
+						children
+					) : (
+						<div className={styles.welcomeSection}>
+							<h2>Welcome, {user?.username}!</h2>
+							<p>Select an option from the navigation to get started.</p>
+						</div>
+					)}
+				</div>
+			</main>
 		</div>
 	);
 }

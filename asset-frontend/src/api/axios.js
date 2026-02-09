@@ -17,7 +17,6 @@ const subcategories = [
 	{ id: 3, categoryId: 6, name: 'Motorcycle' },
 	{ id: 4, categoryId: 6, name: 'Lorry' },
 	{ id: 5, categoryId: 6, name: 'Bus' },
-	// examples for IT & others (add more if needed)
 	{ id: 6, categoryId: 1, name: 'Laptop' },
 	{ id: 7, categoryId: 1, name: 'Desktop' },
 	{ id: 8, categoryId: 7, name: 'Staples' },
@@ -33,7 +32,6 @@ let assets = [
 		asset_name: 'Car',
 		brand_model: 'MAZDA X8',
 		serial_number: 'SAZ100',
-		registration_number: 'SAZ100',
 		purchase_date: '15/02/2023',
 		cost_rm: 300000.0,
 		location_department: 'IT Dept',
@@ -48,7 +46,6 @@ let assets = [
 		asset_name: 'Car',
 		brand_model: 'MAZDA X8',
 		serial_number: 'ELI888',
-		registration_number: 'ELI888',
 		purchase_date: '15/02/2023',
 		cost_rm: 300000.0,
 		location_department: 'IT Dept',
@@ -93,8 +90,7 @@ const api = {
 			res = res.filter(a =>
 				(a.asset_name || '').toLowerCase().includes(qq) ||
 				(a.brand_model || '').toLowerCase().includes(qq) ||
-				(a.serial_number || '').toLowerCase().includes(qq) ||
-				(a.registration_number || '').toLowerCase().includes(qq)
+				(a.serial_number || '').toLowerCase().includes(qq)
 			);
 		}
 		return res;

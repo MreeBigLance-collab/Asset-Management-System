@@ -99,7 +99,7 @@ export default function AssetTable() {
 							<th>Purchase Date</th>
 							<th>Cost (RM)</th>
 							<th>Location</th>
-							<th>Assign To</th>
+							<th>Assigned To</th>
 							<th>Condition</th>
 							<th>Action</th>
 						</tr>
@@ -113,7 +113,7 @@ export default function AssetTable() {
 								<td>{a.asset_name}</td>
 								<td>{getCategoryName(a.categoryId)}</td>
 								<td>{a.brand_model}</td>
-								<td>{a.serial_number || a.registration_number}</td>
+								<td>{a.serial_number}</td>
 								<td>{a.purchase_date}</td>
 								<td>RM {a.cost_rm?.toLocaleString('en-MY', { minimumFractionDigits:2 })}</td>
 								<td>{a.location_department}</td>

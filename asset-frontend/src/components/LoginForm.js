@@ -5,6 +5,7 @@ import styles from './LoginForm.module.css';
 
 export default function LoginForm() {
 	const { login } = useContext(AuthContext);
+	const [selectedRole, setSelectedRole] = useState('');
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
@@ -16,6 +17,11 @@ export default function LoginForm() {
 		setError('');
 		setLoading(true);
 		try {
+			if (!selectedRole) {
+				setError('Please select a role first');
+				setLoading(false);
+				return;
+			}
 			if (!username || !password) {
 				setError('Please enter username and password');
 				setLoading(false);
@@ -32,8 +38,31 @@ export default function LoginForm() {
 	return (
 		<form className={styles.form} onSubmit={submit}>
 			<h2>Asset Management System</h2>
-			<p style={{ textAlign: 'center', color: '#999', marginBottom: '16px' }}>Login to your account</p>
+			<p style={{ textAlign: 'center', color: '#999', marginBottom: '20px' }}>Login to your account</p>
+			
+			{/* Role Selection */}
+			<div className={styles.roleSection}>
+				<p className={styles.roleLabel}>Select Your Role:</p>
+				<div className={styles.roleButtons}>
+					<button
+						type="button"
+						className={`${styles.roleBtn} ${selectedRole === 'Admin' ? styles.roleActive : ''}`}
+						onClick={() => setSelectedRole('Admin')}
+					>
+						👨‍💼 Admin
+					</button>
+					<button
+						type="button"
+						className={`${styles.roleBtn} ${selectedRole === 'User' ? styles.roleActive : ''}`}
+						onClick={() => setSelectedRole('User')}
+					>
+						👤 User
+					</button>
+				</div>
+			</div>
+
 			{error && <div className={styles.error}>{error}</div>}
+			
 			<div>
 				<input 
 					type="text"
@@ -52,13 +81,13 @@ export default function LoginForm() {
 					disabled={loading}
 				/>
 			</div>
-			<button type="submit" disabled={loading}>
+			<button type="submit" disabled={loading || !selectedRole}>
 				{loading ? 'Logging in...' : 'Login'}
 			</button>
 			<div style={{ marginTop: '12px', fontSize: '12px', color: '#999', textAlign: 'center' }}>
-				<p>Demo credentials:</p>
-				<p>admin / admin123</p>
-				<p>user1 / admin123</p>
+				<p><strong>Demo Credentials:</strong></p>
+				<p>Admin: admin / admin123</p>
+				<p>User: user1 / admin123</p>
 			</div>
 		</form>
 	);

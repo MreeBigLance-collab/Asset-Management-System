@@ -1,5 +1,5 @@
 .form {
-	max-width: 400px;
+	max-width: 420px;
 	margin: 60px auto;
 	padding: 40px;
 	border: none;
@@ -19,6 +19,50 @@
 	font-size: 22px;
 	font-weight: 700;
 }
+
+/* Role Selection Section */
+.roleSection {
+	margin-bottom: 16px;
+	padding-bottom: 16px;
+	border-bottom: 2px solid #f0f0f0;
+}
+.roleLabel {
+	margin: 0 0 12px 0;
+	color: #7209b7;
+	font-size: 13px;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+.roleButtons {
+	display: flex;
+	gap: 12px;
+}
+.roleBtn {
+	flex: 1;
+	padding: 12px;
+	border: 2px solid #ddd;
+	border-radius: 6px;
+	background: white;
+	color: #666;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s;
+	font-size: 14px;
+	pointer-events: auto;
+}
+.roleBtn:hover {
+	border-color: #9d4edd;
+	color: #9d4edd;
+	background: rgba(157, 78, 221, 0.05);
+}
+.roleActive {
+	border-color: #9d4edd;
+	background: linear-gradient(135deg, #9d4edd 0%, #7209b7 100%);
+	color: white;
+	box-shadow: 0 2px 8px rgba(157, 78, 221, 0.3);
+}
+
+/* Form Inputs */
 .form div {
 	display: flex;
 	flex-direction: column;
@@ -41,7 +85,9 @@
 	cursor: not-allowed;
 	opacity: 0.6;
 }
-.form button {
+
+/* Submit Button */
+.form button[type="submit"] {
 	padding: 12px;
 	background: linear-gradient(135deg, #9d4edd 0%, #7209b7 100%);
 	color: white;
@@ -56,18 +102,20 @@
 	z-index: 20;
 	position: relative;
 }
-.form button:hover:not(:disabled) {
+.form button[type="submit"]:hover:not(:disabled) {
 	opacity: 0.9;
 	box-shadow: 0 2px 8px rgba(157, 78, 221, 0.3);
 	transform: translateY(-1px);
 }
-.form button:active:not(:disabled) {
+.form button[type="submit"]:active:not(:disabled) {
 	transform: translateY(0);
 }
-.form button:disabled {
-	opacity: 0.6;
+.form button[type="submit"]:disabled {
+	opacity: 0.5;
 	cursor: not-allowed;
 }
+
+/* Error Message */
 .error {
 	color: #e81828;
 	font-size: 13px;
