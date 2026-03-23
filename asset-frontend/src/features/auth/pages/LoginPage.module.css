@@ -1,0 +1,22 @@
+﻿.container {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: url('../../../img/background_login.jpg') center/cover no-repeat;
+	background-attachment: fixed;
+	position: relative;
+	overflow: hidden;
+}
+.background {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(205, 180, 219, 0.45);
+	pointer-events: none;
+	z-index: 1;
+	backdrop-filter: blur(2px);
+}
+

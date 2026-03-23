@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import { Routes, Route, Navigate, useParams } from 'react-router-dom';
 import './App.css';
-import LoginPage from './pages/LoginPage';
-import HomePage from './pages/HomePage';
-import DashboardPage from './pages/DashboardPage';
-import AssetPage from './pages/AssetPage';
-import FormFactory from './forms/FormFactory';
-import ViewFactory from './views/ViewFactory';
-import { AuthContext } from './context/AuthContext';
+import LoginPage from './features/auth/pages/LoginPage';
+import HomePage from './features/home/pages/HomePage';
+import DashboardPage from './features/assets/pages/DashboardPage';
+import AssetPage from './features/assets/pages/AssetPage';
+import FormFactory from './features/assets/forms/FormFactory';
+import ViewFactory from './features/assets/views/ViewFactory';
+import { AuthContext } from './features/auth/context/AuthContext';
 
 function App() {
 	const { user } = useContext(AuthContext);
@@ -49,3 +49,4 @@ function App() {
 }
 
 export default App;
+

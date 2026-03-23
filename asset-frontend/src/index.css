@@ -1,21 +1,30 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
+﻿* { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* Theme variables — used across components for consistent theming */
+/* Theme variables used across components for consistent theming */
 :root {
-	--bg: #f8f7fb;
-	--surface: #ffffff;
-	--text: #333333;
-	--muted: #f0f0f0;
-	--primary: #7209b7; /* brand primary */
-	--accent: #9d4edd;  /* brand accent (gradient start) */
-}
-
-/* Simple translucent helpers (use sparingly) */
-:root {
-	--primary-04: #7209b70A; /* primary at ~4% */
-	--accent-08: #9d4edd14;  /* accent at ~8% */
-	--accent-16: #9d4edd29;  /* accent at ~16% */
-	--muted-text: #999999;
+	--bg: #F8F9FA;
+	--surface: #FFFFFF;
+	--text: #2F2F2F;
+	--muted: #DCE5EB;
+	--primary: #734AA0;
+	--secondary: #7CDDB3;
+	--accent: #E37BA0;
+	--soft-purple: #A86CA7;
+	--blue-grey: #7493A5;
+	--primary-04: #734aa00a;
+	--accent-08: #e37ba014;
+	--accent-16: #e37ba029;
+	--secondary-16: #7cddb329;
+	--muted-text: #7493A5;
+	--on-primary: #FFFFFF;
+	--sidebar-bg: #EEF2F5;
+	--on-sidebar: #2F2F2F;
+	--btn-height: 44px;
+	--btn-sm-height: 36px;
+	--btn-padding-x: 16px;
+	--btn-radius: 8px;
+	--btn-font-size: 14px;
+	--btn-font-weight: 600;
 }
 
 body {
@@ -26,3 +35,4 @@ body {
 code { font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace; }
 button { font-family: inherit; }
 input, select, textarea { font-family: inherit; }
+

@@ -1,0 +1,28 @@
+﻿.container { padding: 0; }
+.container h2 { color: var(--primary); margin-top: 0; margin-bottom: 16px; font-size: 20px; font-weight: 700; }
+
+.controls { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+.controls input, .controls select { padding: 8px; border: 1px solid var(--muted); border-radius: 6px; font-size: 13px; }
+.addBtn { height: var(--btn-height); padding: 0 var(--btn-padding-x); background: var(--primary); color: var(--on-primary); border-radius: var(--btn-radius); text-decoration: none; font-weight: var(--btn-font-weight); font-size: var(--btn-font-size); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.addBtn:hover { opacity: 0.9; }
+
+.detailPanel { background: var(--surface); border: 1px solid var(--primary); border-radius: 10px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.detailHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 2px solid var(--muted); padding-bottom: 10px; }
+.detailHeader h3 { margin: 0; color: var(--primary); font-size: 16px; }
+.closeBtn { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--muted-text); }
+.detailGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
+.detailRow { display: flex; flex-direction: column; }
+.detailLabel { font-size: 12px; color: var(--accent); text-transform: uppercase; font-weight: 600; margin-bottom: 4px; }
+.editBtnSmall { height: var(--btn-sm-height); padding: 0 12px; background: var(--primary); color: var(--on-primary); border-radius: var(--btn-radius); text-decoration: none; font-size: 13px; font-weight: var(--btn-font-weight); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.cancelBtn { height: var(--btn-sm-height); padding: 0 12px; background: var(--muted); color: var(--text); border: none; border-radius: var(--btn-radius); font-size: 13px; font-weight: var(--btn-font-weight); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+
+.tableWrapper { background: var(--surface); border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; }
+.table { width: 100%; border-collapse: collapse; }
+.table th { background: var(--primary); color: var(--on-primary); padding: 12px; text-align: left; font-size: 12px; font-weight: 600; }
+.table td { padding: 10px 12px; border-bottom: 1px solid var(--muted); font-size: 12px; color: var(--text); }
+.table tr:hover { background: var(--bg); }
+.viewBtn { height: var(--btn-sm-height); padding: 0 12px; background: var(--primary); color: var(--on-primary); border: none; border-radius: var(--btn-radius); font-size: 13px; font-weight: var(--btn-font-weight); cursor: pointer; margin-right: 6px; }
+.viewBtn:hover { opacity: 0.9; }
+.editLink { height: var(--btn-sm-height); padding: 0 12px; background: var(--muted); color: var(--text); text-decoration: none; border-radius: var(--btn-radius); font-weight: var(--btn-font-weight); font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.editLink:hover { background: var(--accent-08); text-decoration: none; }
+

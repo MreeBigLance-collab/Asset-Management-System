@@ -1,0 +1,29 @@
+﻿.container { padding: 0; }
+.container h2 { color: var(--primary); margin-top: 0; margin-bottom: 20px; font-size: 24px; font-weight: 700; }
+.container h3 { color: var(--primary); margin-top: 28px; margin-bottom: 16px; font-size: 18px; font-weight: 600; }
+
+.mainStats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 28px; }
+.statCard { padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 16px; color: var(--text); }
+
+.card1 { background: var(--primary); color: var(--on-primary); }
+.card2 { background: var(--secondary); }
+.card3 { background: var(--accent); }
+.card4 { background: var(--muted); }
+.card5 { background: var(--bg); }
+
+.statIcon { font-size: 32px; }
+.statContent { flex: 1; }
+.statLabel { font-size: 12px; opacity: 0.9; text-transform: uppercase; font-weight: 600; margin-bottom: 4px; }
+.statValue { font-size: 28px; font-weight: 700; }
+
+.tableWrapper { background: var(--surface); border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; }
+.summaryTable { width: 100%; border-collapse: collapse; }
+.summaryTable th { background: var(--primary); color: var(--on-primary); padding: 14px; text-align: left; font-weight: 600; font-size: 13px; }
+.summaryTable td { padding: 12px 14px; border-bottom: 1px solid var(--muted); font-size: 13px; color: var(--text); }
+.summaryTable tr:hover { background: var(--bg); }
+.centerText { text-align: center; }
+
+.progressContainer { display: flex; align-items: center; gap: 8px; justify-content: center; }
+.progressBar { height: 6px; background: var(--accent); border-radius: 3px; min-width: 40px; }
+.progressText { font-size: 11px; font-weight: 600; color: var(--primary); min-width: 30px; }
+

@@ -1,0 +1,160 @@
+﻿.form {
+	max-width: 420px;
+	margin: 60px auto;
+	padding: 40px;
+	border: none;
+	border-radius: 12px;
+	background: var(--surface);
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+	position: relative;
+	z-index: 10;
+	animation: slideUp 0.5s ease-out;
+}
+@keyframes slideUp {
+	from {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+.logoContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 12px;
+}
+.logo {
+	max-width: 80px;
+	height: auto;
+	object-fit: contain;
+	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+.form h2 {
+	margin: 0 0 4px 0;
+	text-align: center;
+	font-size: 24px;
+	font-weight: 700;
+	letter-spacing: -0.5px;
+	color: var(--text);
+}
+.subtitle {
+	text-align: center;
+	color: var(--muted-text);
+	margin: 0 0 16px 0;
+	font-size: 13px;
+}
+
+/* Role Selection Section */
+.roleSection {
+	margin-bottom: 16px;
+	padding-bottom: 16px;
+	border-bottom: 2px solid var(--muted);
+}
+.roleLabel {
+	margin: 0 0 12px 0;
+	color: var(--primary);
+	font-size: 13px;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+.roleButtons {
+	display: flex;
+	gap: 12px;
+}
+.roleBtn {
+	flex: 1;
+	height: var(--btn-height);
+	padding: 0 12px;
+	border: 2px solid var(--muted);
+	border-radius: var(--btn-radius);
+	background: var(--surface);
+	color: var(--muted-text);
+	font-weight: var(--btn-font-weight);
+	cursor: pointer;
+	transition: all 0.2s;
+	font-size: var(--btn-font-size);
+	pointer-events: auto;
+}
+.roleBtn:hover {
+	border-color: var(--accent);
+	color: var(--accent);
+	background: var(--primary-04);
+}
+.roleActive {
+	border-color: var(--accent);
+	background: var(--accent);
+	color: var(--text);
+	box-shadow: 0 2px 8px var(--accent-16);
+}
+
+/* Form Inputs */
+.form div {
+	display: flex;
+	flex-direction: column;
+}
+.form input {
+	padding: 12px;
+	border: 1px solid var(--muted);
+	border-radius: 6px;
+	font-size: 14px;
+	transition: all 0.2s;
+	pointer-events: auto;
+}
+.form input:focus {
+	outline: none;
+	border-color: var(--accent);
+	box-shadow: 0 0 0 2px var(--accent-08);
+}
+.form input:disabled {
+	background: var(--bg);
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+
+/* Submit Button */
+.form button[type="submit"] {
+	height: var(--btn-height);
+	padding: 0 var(--btn-padding-x);
+	background: var(--primary);
+	color: var(--on-primary);
+	border: none;
+	border-radius: var(--btn-radius);
+	cursor: pointer;
+	font-weight: var(--btn-font-weight);
+	font-size: var(--btn-font-size);
+	transition: all 0.2s;
+	margin-top: 12px;
+	pointer-events: auto;
+	z-index: 20;
+	position: relative;
+}
+.form button[type="submit"]:hover:not(:disabled) {
+	opacity: 0.9;
+	box-shadow: 0 2px 8px var(--accent-16);
+	transform: translateY(-1px);
+}
+.form button[type="submit"]:active:not(:disabled) {
+	transform: translateY(0);
+}
+.form button[type="submit"]:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+/* Error Message */
+.error {
+	color: var(--text);
+	font-size: 13px;
+	padding: 10px;
+	background: var(--accent-08);
+	border-radius: 4px;
+	margin-bottom: 8px;
+	border-left: 3px solid var(--primary);
+}
+
