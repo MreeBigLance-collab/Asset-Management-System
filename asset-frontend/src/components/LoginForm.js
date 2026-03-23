@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import styles from './LoginForm.module.css';
+import companyLogo from '../img/companyLogo.jpeg';
 
 export default function LoginForm() {
 	const { login } = useContext(AuthContext);
@@ -37,8 +38,11 @@ export default function LoginForm() {
 
 	return (
 		<form className={styles.form} onSubmit={submit}>
-			<h2>Asset Management System</h2>
-			<p style={{ textAlign: 'center', color: '#999', marginBottom: '20px' }}>Login to your account</p>
+			<div className={styles.logoContainer}>
+				<img src={companyLogo} alt="Company Logo" className={styles.logo} />
+			</div>
+			<h2>NiSE Inventory Management System</h2>
+			<p className={styles.subtitle}>Login to your account</p>
 			
 			{/* Role Selection */}
 			<div className={styles.roleSection}>

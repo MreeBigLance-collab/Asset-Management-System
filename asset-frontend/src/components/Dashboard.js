@@ -5,21 +5,39 @@ import styles from './Dashboard.module.css';
 export default function Dashboard() {
 	const [summary, setSummary] = useState([]);
 	const [assets, setAssets] = useState([]);
-	const [totalCost, setTotalCost] = useState(0);
 
 	useEffect(() => {
 		api.getSummary().then(setSummary);
-		api.getAssets().then(data => {
-			setAssets(data);
-			const total = data.reduce((sum, a) => sum + (a.cost_rm || 0), 0);
-			setTotalCost(total);
-		});
+		api.getAssets().then(setAssets);
 	}, []);
 
-	const totalAssets = assets.length;
-	const assignedAssets = assets.filter(a => a.condition_status === 'Asset in use').length;
-	const availableAssets = assets.filter(a => a.condition_status === 'Assets in Storage').length;
-	const underMaintenance = assets.filter(a => a.condition_status === 'Assets under repair').length;
+	// Helper to check if category is stock-based
+	const isStockCategory = (catId) => [5, 7, 8, 9].includes(catId);
+
+	// Calculate metrics combining both traditional and stock assets
+	const calculateMetrics = () => {
+		let total = 0, assigned = 0, available = 0, maintenance = 0, disposal = 0;
+		
+		assets.forEach(a => {
+			if (isStockCategory(a.categoryId)) {
+				// Stock-based: count units
+				total += (a.closing_stock || 0);
+				assigned += (a.issue_stock || 0);
+				available += Math.max(0, (a.closing_stock || 0) - (a.issue_stock || 0));
+			} else {
+				// Traditional: count items
+				total += 1;
+				if (a.condition_status === 'Asset in use') assigned += 1;
+				else if (a.condition_status === 'Assets in Storage') available += 1;
+				else if (a.condition_status === 'Assets under repair') maintenance += 1;
+				else if (a.condition_status === 'Assets disposed') disposal += 1;
+			}
+		});
+		
+		return { total, assigned, available, maintenance, disposal };
+	};
+
+	const metrics = calculateMetrics();
 
 	return (
 		<div className={styles.container}>
@@ -30,28 +48,35 @@ export default function Dashboard() {
 					<div className={styles.statIcon}>📦</div>
 					<div className={styles.statContent}>
 						<div className={styles.statLabel}>Total Assets</div>
-						<div className={styles.statValue}>{totalAssets}</div>
+						<div className={styles.statValue}>{metrics.total}</div>
 					</div>
 				</div>
 				<div className={styles.statCard + ' ' + styles.card2}>
 					<div className={styles.statIcon}>✓</div>
 					<div className={styles.statContent}>
-						<div className={styles.statLabel}>Assets Assigned</div>
-						<div className={styles.statValue}>{assignedAssets}</div>
+						<div className={styles.statLabel}>Assigned</div>
+						<div className={styles.statValue}>{metrics.assigned}</div>
 					</div>
 				</div>
 				<div className={styles.statCard + ' ' + styles.card3}>
 					<div className={styles.statIcon}>📍</div>
 					<div className={styles.statContent}>
-						<div className={styles.statLabel}>Assets Available</div>
-						<div className={styles.statValue}>{availableAssets}</div>
+						<div className={styles.statLabel}>Available</div>
+						<div className={styles.statValue}>{metrics.available}</div>
 					</div>
 				</div>
 				<div className={styles.statCard + ' ' + styles.card4}>
 					<div className={styles.statIcon}>🔧</div>
 					<div className={styles.statContent}>
-						<div className={styles.statLabel}>Under Maintenance</div>
-						<div className={styles.statValue}>{underMaintenance}</div>
+						<div className={styles.statLabel}>Maintenance</div>
+						<div className={styles.statValue}>{metrics.maintenance}</div>
+					</div>
+				</div>
+				<div className={styles.statCard + ' ' + styles.card5}>
+					<div className={styles.statIcon}>🗑️</div>
+					<div className={styles.statContent}>
+						<div className={styles.statLabel}>Disposal</div>
+						<div className={styles.statValue}>{metrics.disposal}</div>
 					</div>
 				</div>
 			</div>
@@ -64,15 +89,17 @@ export default function Dashboard() {
 							<th>No</th>
 							<th>Category</th>
 							<th>Asset Name</th>
-							<th>Total Units</th>
-							<th>Assigned Units</th>
-							<th>Available Units</th>
+							<th>Total</th>
+							<th>Assigned</th>
+							<th>Available</th>
+							<th>Maintenance</th>
+							<th>Disposal</th>
 							<th>Usage %</th>
 						</tr>
 					</thead>
 					<tbody>
 						{summary.length === 0 ? (
-							<tr><td colSpan="7" style={{textAlign:'center', padding:'20px', color:'#999'}}>No assets available</td></tr>
+							<tr><td colSpan="9" style={{textAlign:'center', padding:'20px', color:'#999'}}>No assets available</td></tr>
 						) : summary.map((s, i) => {
 							const usage = s.total > 0 ? Math.round((s.assigned / s.total) * 100) : 0;
 							return (
@@ -82,7 +109,9 @@ export default function Dashboard() {
 									<td>{s.asset_name}</td>
 									<td className={styles.centerText}>{s.total}</td>
 									<td className={styles.centerText}><span style={{color:'#107c10', fontWeight:600}}>{s.assigned}</span></td>
-									<td className={styles.centerText}><span style={{color:'#ff8c00', fontWeight:600}}>{s.total - s.assigned}</span></td>
+									<td className={styles.centerText}><span style={{color:'#0078d4', fontWeight:600}}>{s.available}</span></td>
+									<td className={styles.centerText}><span style={{color:'#ff8c00', fontWeight:600}}>{s.maintenance || 0}</span></td>
+									<td className={styles.centerText}><span style={{color:'#a4262c', fontWeight:600}}>{s.disposal || 0}</span></td>
 									<td className={styles.centerText}>
 										<div className={styles.progressContainer}>
 											<div className={styles.progressBar} style={{width:`${usage}%`}}></div>

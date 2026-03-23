@@ -1,8 +1,27 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* Theme variables — used across components for consistent theming */
+:root {
+	--bg: #f8f7fb;
+	--surface: #ffffff;
+	--text: #333333;
+	--muted: #f0f0f0;
+	--primary: #7209b7; /* brand primary */
+	--accent: #9d4edd;  /* brand accent (gradient start) */
+}
+
+/* Simple translucent helpers (use sparingly) */
+:root {
+	--primary-04: #7209b70A; /* primary at ~4% */
+	--accent-08: #9d4edd14;  /* accent at ~8% */
+	--accent-16: #9d4edd29;  /* accent at ~16% */
+	--muted-text: #999999;
+}
+
 body {
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-	background: #f8f7fb;
-	color: #333;
+	background: var(--bg);
+	color: var(--text);
 }
 code { font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace; }
 button { font-family: inherit; }

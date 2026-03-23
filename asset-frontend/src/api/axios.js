@@ -8,7 +8,8 @@ const categories = [
 	{ id: 5, name: 'Pantry Equipment', key: 'PAN' },
 	{ id: 6, name: 'Vehicle', key: 'VEH' },
 	{ id: 7, name: 'Stationery & Supplies', key: 'STA' },
-	{ id: 8, name: 'Miscellaneous', key: 'MIS' }
+	{ id: 8, name: 'Miscellaneous', key: 'MIS' },
+	{ id: 9, name: 'Gift', key: 'GIF' }
 ];
 
 const subcategories = [
@@ -21,7 +22,10 @@ const subcategories = [
 	{ id: 7, categoryId: 1, name: 'Desktop' },
 	{ id: 8, categoryId: 7, name: 'Staples' },
 	{ id: 9, categoryId: 7, name: 'Paper Shredder' },
-	{ id: 10, categoryId: 8, name: 'Company Mobile Phone' }
+	{ id: 10, categoryId: 8, name: 'Company Mobile Phone' },
+	{ id: 11, categoryId: 9, name: 'Corporate Gift' },
+	{ id: 12, categoryId: 9, name: 'Merchandise' },
+	{ id: 13, categoryId: 9, name: 'Hamper' }
 ];
 
 let assets = [
@@ -122,13 +126,38 @@ const api = {
 
 	async getSummary() {
 		await delay();
+		const isStockCategory = (catId) => [5, 7, 8, 9].includes(catId);
 		const byCat = {};
+		
 		for (const a of assets) {
 			const cat = categories.find(c => c.id === a.categoryId)?.name || 'Unknown';
 			const key = `${cat}||${a.asset_name}`;
-			byCat[key] = byCat[key] || { category: cat, asset_name: a.asset_name, total: 0, assigned: 0 };
-			byCat[key].total += 1;
-			if ((a.condition_status || '').toLowerCase().includes('in use')) byCat[key].assigned += 1;
+			
+			if (!byCat[key]) {
+				byCat[key] = { 
+					category: cat, 
+					asset_name: a.asset_name, 
+					total: 0, 
+					assigned: 0, 
+					available: 0, 
+					maintenance: 0, 
+					disposal: 0 
+				};
+			}
+			
+			if (isStockCategory(a.categoryId)) {
+				// Stock-based assets: count units
+				byCat[key].total += (a.closing_stock || 0);
+				byCat[key].assigned += (a.issue_stock || 0);
+				byCat[key].available += Math.max(0, (a.closing_stock || 0) - (a.issue_stock || 0));
+			} else {
+				// Traditional assets: count items
+				byCat[key].total += 1;
+				if (a.condition_status === 'Asset in use') byCat[key].assigned += 1;
+				else if (a.condition_status === 'Assets in Storage') byCat[key].available += 1;
+				else if (a.condition_status === 'Assets under repair') byCat[key].maintenance += 1;
+				else if (a.condition_status === 'Assets disposed') byCat[key].disposal += 1;
+			}
 		}
 		return Object.values(byCat);
 	}
