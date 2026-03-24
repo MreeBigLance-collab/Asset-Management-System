@@ -2,8 +2,13 @@ import React, { useEffect, useState, useCallback } from 'react';
 import api from '../../../api/axios';
 import { Link } from 'react-router-dom';
 import styles from './AssetTable.module.css';
+import {
+	ASSET_CATEGORY_IDS,
+	STOCK_CATEGORY_IDS,
+	isStockCategory
+} from '../config/categoryMasters';
 
-export default function AssetTable() {
+export default function AssetTable({ mode = 'asset' }) {
 	const [assets, setAssets] = useState([]);
 	const [cats, setCats] = useState([]);
 	const [q, setQ] = useState('');
@@ -11,9 +16,22 @@ export default function AssetTable() {
 	const [assignedTo, setAssignedTo] = useState('');
 	const [selectedAsset, setSelectedAsset] = useState(null);
 	const [collapsedCategories, setCollapsedCategories] = useState({});
+	const isStockMode = mode === 'stock';
+	const allowedCategoryIds = isStockMode ? STOCK_CATEGORY_IDS : ASSET_CATEGORY_IDS;
+	const addRoute = `/assets/new?mode=${isStockMode ? 'stock' : 'asset'}`;
+	const pageTitle = isStockMode ? 'Office Stock Inventory' : 'Office Assets Register';
 
-	const load = useCallback(() => api.getAssets({ q, categoryId, assignedTo }).then(setAssets), [q, categoryId, assignedTo]);
-	useEffect(() => { api.getCategories().then(setCats); load(); }, [load]);
+	const load = useCallback(async () => {
+		const result = await api.getAssets({ q, categoryId, assignedTo });
+		setAssets(result.filter(asset => allowedCategoryIds.includes(Number(asset.categoryId))));
+	}, [q, categoryId, assignedTo, allowedCategoryIds]);
+
+	useEffect(() => {
+		api.getCategories().then(result => {
+			setCats(result.filter(category => allowedCategoryIds.includes(Number(category.id))));
+		});
+		load();
+	}, [load, allowedCategoryIds]);
 
 	const getCategoryName = (id) => {
 		const found = cats.find(c => Number(c.id) === Number(id));
@@ -25,9 +43,6 @@ export default function AssetTable() {
 		if (status === 'Assets under repair') return '#ff7630';
 		return '#666';
 	};
-
-	// Check if category uses stock-based fields (Pantry, Stationery, Misc, Gift)
-	const isStockCategory = (catId) => [5, 7, 8, 9].includes(catId);
 
 	// Group assets by category
 	const groupedAssets = assets.reduce((acc, asset) => {
@@ -41,7 +56,7 @@ export default function AssetTable() {
 		setCollapsedCategories(prev => ({ ...prev, [catId]: !prev[catId] }));
 	};
 
-	const renderStockTable = (categoryAssets, catId) => (
+	const renderStockTable = (categoryAssets) => (
 		<div className={styles.tableWrapper}>
 			<table className={styles.table}>
 				<thead>
@@ -78,7 +93,7 @@ export default function AssetTable() {
 							<td>{a.remarks || '-'}</td>
 							<td>
 								<button onClick={() => setSelectedAsset(a)} className={styles.viewBtn}>View</button>
-								<Link to={`/assets/${a.id}/edit`} className={styles.editLink}>Edit</Link>
+								<Link to={`/assets/${a.id}/edit?mode=stock`} className={styles.editLink}>Edit</Link>
 							</td>
 						</tr>
 					))}
@@ -87,7 +102,7 @@ export default function AssetTable() {
 		</div>
 	);
 
-	const renderAssetTable = (categoryAssets, catId) => (
+	const renderAssetTable = (categoryAssets) => (
 		<div className={styles.tableWrapper}>
 			<table className={styles.table}>
 				<thead>
@@ -120,7 +135,7 @@ export default function AssetTable() {
 							<td>{a.remarks || '-'}</td>
 							<td>
 								<button onClick={() => setSelectedAsset(a)} className={styles.viewBtn}>View</button>
-								<Link to={`/assets/${a.id}/edit`} className={styles.editLink}>Edit</Link>
+								<Link to={`/assets/${a.id}/edit?mode=asset`} className={styles.editLink}>Edit</Link>
 							</td>
 						</tr>
 					))}
@@ -131,15 +146,20 @@ export default function AssetTable() {
 
 	return (
 		<div className={styles.container}>
-			<h2>Asset Inventory</h2>
+			<h2>{pageTitle}</h2>
 			<div className={styles.controls}>
-				<input placeholder="🔍 Search assets..." value={q} onChange={e => setQ(e.target.value)} style={{flex:1, minWidth:'150px'}} />
+				<input
+					placeholder={isStockMode ? '🔍 Search stock items...' : '🔍 Search assets...'}
+					value={q}
+					onChange={e => setQ(e.target.value)}
+					style={{flex:1, minWidth:'150px'}}
+				/>
 				<select value={categoryId} onChange={e => setCategoryId(e.target.value)}>
 					<option value="">All Categories</option>
 					{cats.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
 				</select>
 				<input placeholder="Assigned To" value={assignedTo} onChange={e => setAssignedTo(e.target.value)} style={{minWidth:'120px'}} />
-				<Link to="/assets/new" className={styles.addBtn}>+ Add Asset</Link>
+				<Link to={addRoute} className={styles.addBtn}>{isStockMode ? '+ Add Stock Item' : '+ Add Asset'}</Link>
 			</div>
 
 			{selectedAsset && (
@@ -230,7 +250,7 @@ export default function AssetTable() {
 						</div>
 					</div>
 					<div style={{marginTop:12, display:'flex', gap:8}}>
-						<Link to={`/assets/${selectedAsset.id}/edit`} className={styles.editBtnSmall}>Edit</Link>
+						<Link to={`/assets/${selectedAsset.id}/edit?mode=${isStockCategory(selectedAsset.categoryId) ? 'stock' : 'asset'}`} className={styles.editBtnSmall}>Edit</Link>
 						<button onClick={() => setSelectedAsset(null)} className={styles.cancelBtn}>Close</button>
 					</div>
 				</div>
@@ -285,7 +305,7 @@ export default function AssetTable() {
 								</div>
 								
 								{!isCollapsed && (
-									isStock ? renderStockTable(categoryAssets, parseInt(catId)) : renderAssetTable(categoryAssets, parseInt(catId))
+									isStock ? renderStockTable(categoryAssets) : renderAssetTable(categoryAssets)
 								)}
 							</div>
 						);

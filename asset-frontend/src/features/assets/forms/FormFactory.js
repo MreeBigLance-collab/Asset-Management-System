@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styles from './Forms.module.css';
 
 // Import all category forms
@@ -13,18 +13,22 @@ import StationerySuppliesForm from './StationerySuppliesForm';
 import MiscellaneousForm from './MiscellaneousForm';
 import GiftForm from './GiftForm';
 import api from '../../../api/axios';
+import {
+	MAJOR_CATEGORY,
+	CATEGORY_MASTERS
+} from '../config/categoryMasters';
 
 // Form component mapping
 const formComponents = {
-	1: { name: 'IT & Electronic Equipment', component: ITEquipmentForm, icon: '💻' },
-	2: { name: 'Office Furniture', component: OfficeFurnitureForm, icon: '🪑' },
-	3: { name: 'Office Equipment', component: OfficeEquipmentForm, icon: '🖨️' },
+	1: { name: 'Office Equipment & IT Gadgets', component: ITEquipmentForm, icon: '💻' },
+	2: { name: 'Furniture', component: OfficeFurnitureForm, icon: '🪑' },
+	3: { name: 'Electronics & Electrical', component: OfficeEquipmentForm, icon: '🖨️' },
 	4: { name: 'Security & Facilities', component: SecurityFacilitiesForm, icon: '🔒' },
-	5: { name: 'Pantry Equipment', component: PantryEquipmentForm, icon: '☕' },
-	6: { name: 'Vehicle', component: VehicleForm, icon: '🚗' },
-	7: { name: 'Stationery & Supplies', component: StationerySuppliesForm, icon: '📎' },
-	8: { name: 'Miscellaneous', component: MiscellaneousForm, icon: '📦' }
-	,9: { name: 'Gift', component: GiftForm, icon: '🎁' }
+	5: { name: 'Pantry Stock', component: PantryEquipmentForm, icon: '☕' },
+	6: { name: 'Vehicles', component: VehicleForm, icon: '🚗' },
+	7: { name: 'Office Stationery Stock', component: StationerySuppliesForm, icon: '📎' },
+	8: { name: 'Merchandise Stock', component: MiscellaneousForm, icon: '📦' },
+	9: { name: 'Gift Stock', component: GiftForm, icon: '🎁' }
 };
 
 /**
@@ -42,16 +46,42 @@ const formComponents = {
 export default function FormFactory() {
 	const { id } = useParams();
 	const nav = useNavigate();
+	const [searchParams, setSearchParams] = useSearchParams();
 	const [selectedCategory, setSelectedCategory] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const mode = searchParams.get('mode');
+	const [scope, setScope] = useState(mode === 'stock' ? MAJOR_CATEGORY.STOCK : MAJOR_CATEGORY.ASSET);
+	const filteredCategoryEntries = Object.entries(formComponents).filter(([categoryId]) => {
+		const categoryMaster = CATEGORY_MASTERS.find(category => Number(category.id) === Number(categoryId));
+		if (!categoryMaster) return false;
+		return categoryMaster.majorCategory === scope;
+	});
+	const backRoute = `/assets?mode=${scope === MAJOR_CATEGORY.STOCK ? 'stock' : 'asset'}`;
+	const selectorTitle = scope === MAJOR_CATEGORY.STOCK ? 'Select Inventory Stock Category' : 'Select Office Asset Category';
+	const selectorSubtitle = scope === MAJOR_CATEGORY.STOCK
+		? 'Choose the stock or inventory type you want to add'
+		: 'Choose the asset type you want to add';
+
+	const updateScope = (nextScope) => {
+		setScope(nextScope);
+		setSelectedCategory(null);
+		setSearchParams({ mode: nextScope === MAJOR_CATEGORY.STOCK ? 'stock' : 'asset' });
+	};
+
+	useEffect(() => {
+		setScope(mode === 'stock' ? MAJOR_CATEGORY.STOCK : MAJOR_CATEGORY.ASSET);
+	}, [mode]);
 
 	// Get category from URL params or props
 	useEffect(() => {
-		const params = new URLSearchParams(window.location.search);
-		const categoryParam = params.get('category');
+		const categoryParam = searchParams.get('category');
 		
 		if (categoryParam) {
-			setSelectedCategory(parseInt(categoryParam));
+			const parsedCategory = parseInt(categoryParam, 10);
+			const categoryMaster = CATEGORY_MASTERS.find(category => category.id === parsedCategory);
+			if (categoryMaster && categoryMaster.majorCategory === scope) {
+				setSelectedCategory(parsedCategory);
+			}
 		}
 
 		// If editing, load asset to get its category
@@ -59,6 +89,8 @@ export default function FormFactory() {
 			setLoading(true);
 			api.getAssetById(id).then(asset => {
 				if (asset) {
+					const categoryMaster = CATEGORY_MASTERS.find(category => category.id === Number(asset.categoryId));
+					if (categoryMaster) setScope(categoryMaster.majorCategory);
 					setSelectedCategory(asset.categoryId);
 				}
 				setLoading(false);
@@ -67,7 +99,7 @@ export default function FormFactory() {
 				setLoading(false);
 			});
 		}
-	}, [id]);
+	}, [id, nav, scope, searchParams]);
 
 	// Show loading state
 	if (loading) {
@@ -83,11 +115,28 @@ export default function FormFactory() {
 		return (
 			<div className={styles.container}>
 				<div className={styles.categorySelector}>
-					<h2>Select Asset Category</h2>
-					<p className={styles.selectorSubtitle}>Choose the type of asset you want to add</p>
+					<h2>{selectorTitle}</h2>
+					<p className={styles.selectorSubtitle}>{selectorSubtitle}</p>
+
+					<div className={styles.scopeSwitch}>
+						<button
+							type="button"
+							onClick={() => updateScope(MAJOR_CATEGORY.ASSET)}
+							className={`${styles.scopeButton} ${scope === MAJOR_CATEGORY.ASSET ? styles.scopeButtonActive : ''}`}
+						>
+							Office Assets
+						</button>
+						<button
+							type="button"
+							onClick={() => updateScope(MAJOR_CATEGORY.STOCK)}
+							className={`${styles.scopeButton} ${scope === MAJOR_CATEGORY.STOCK ? styles.scopeButtonActive : ''}`}
+						>
+							Office Stock
+						</button>
+					</div>
 					
 					<div className={styles.categoryGrid}>
-						{Object.entries(formComponents).map(([categoryId, { name, icon }]) => (
+						{filteredCategoryEntries.map(([categoryId, { name, icon }]) => (
 							<button
 								key={categoryId}
 								className={styles.categoryButton}
@@ -102,10 +151,10 @@ export default function FormFactory() {
 
 					<button 
 						type="button"
-						onClick={() => nav('/assets')} 
+						onClick={() => nav(backRoute)} 
 						className={styles.backButton}
 					>
-						← Back to Assets
+						← Back
 					</button>
 				</div>
 			</div>
@@ -125,10 +174,10 @@ export default function FormFactory() {
 				<h3>Asset category not found</h3>
 				<p>The asset category could not be determined.</p>
 				<button 
-					onClick={() => nav('/assets')}
+					onClick={() => nav(backRoute)}
 					className={styles.submitBtn}
 				>
-					Back to Assets
+					Back
 				</button>
 			</div>
 		</div>

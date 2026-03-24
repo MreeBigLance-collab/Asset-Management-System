@@ -18,8 +18,8 @@ export default function HomePage({ children }) {
 			<nav className={styles.nav}>
 				<NavLink to="/home" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>🏠 Home</NavLink>
 				<NavLink to="/dashboard" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>📊 Dashboard</NavLink>
-				<NavLink to="/assets" end className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>📋 Assets</NavLink>
-				<NavLink to="/assets/new" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>➕ Add Asset</NavLink>
+				<NavLink to="/assets" end className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>🧰 Asset Register</NavLink>
+				<NavLink to="/assets/new" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>➕ Add New Record</NavLink>
 			</nav>
 
 			<main className={styles.main}>

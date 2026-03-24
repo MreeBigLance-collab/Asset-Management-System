@@ -2,9 +2,9 @@
 // Defines which fields should be visible/required for each asset category
 
 export const categoryFieldConfig = {
-	// IT & Electronic Equipment
+	// Office Equipment & IT Gadgets
 	1: {
-		name: 'IT & Electronic Equipment',
+		name: 'Office Equipment & IT Gadgets',
 		identifierLabel: 'Serial Number',
 		identifierField: 'serial_number',
 		fields: {
@@ -18,9 +18,9 @@ export const categoryFieldConfig = {
 			remarks: { required: false, label: 'Remarks / Additional Info' }
 		}
 	},
-	// Office Furniture
+	// Furniture
 	2: {
-		name: 'Office Furniture',
+		name: 'Furniture',
 		identifierLabel: 'Serial/Reference Number',
 		identifierField: 'serial_number',
 		fields: {
@@ -34,9 +34,9 @@ export const categoryFieldConfig = {
 			remarks: { required: false, label: 'Condition / Remarks' }
 		}
 	},
-	// Office Equipment
+	// Electronics & Electrical
 	3: {
-		name: 'Office Equipment',
+		name: 'Electronics & Electrical',
 		identifierLabel: 'Serial Number',
 		identifierField: 'serial_number',
 		fields: {
@@ -66,9 +66,9 @@ export const categoryFieldConfig = {
 			remarks: { required: false, label: 'Maintenance Notes' }
 		}
 	},
-	// Pantry Equipment
+	// Pantry Stock
 	5: {
-		name: 'Pantry Equipment',
+		name: 'Pantry Stock',
 		identifierLabel: 'Model/Serial Number',
 		identifierField: 'serial_number',
 		fields: {
@@ -85,9 +85,9 @@ export const categoryFieldConfig = {
 			remarks: { required: false, label: 'Remarks' }
 		}
 	},
-	// Vehicle
+	// Vehicles
 	6: {
-		name: 'Vehicle',
+		name: 'Vehicles',
 		identifierLabel: 'Registration Number (Plate)',
 		identifierField: 'serial_number', // Use serial_number field to store registration
 		fields: {
@@ -101,9 +101,9 @@ export const categoryFieldConfig = {
 			remarks: { required: false, label: 'Mileage / Maintenance Notes' }
 		}
 	},
-	// Stationery & Supplies
+	// Office Stationery Stock
 	7: {
-		name: 'Stationery & Supplies',
+		name: 'Office Stationery Stock',
 		identifierLabel: 'Item Code',
 		identifierField: 'serial_number',
 		fields: {
@@ -120,9 +120,9 @@ export const categoryFieldConfig = {
 			remarks: { required: false, label: 'Remarks' }
 		}
 	},
-	// Miscellaneous
+	// Merchandise Stock
 	8: {
-		name: 'Miscellaneous',
+		name: 'Merchandise Stock',
 		identifierLabel: 'Serial / Reference Number',
 		identifierField: 'serial_number',
 		fields: {
@@ -139,9 +139,9 @@ export const categoryFieldConfig = {
 			remarks: { required: false, label: 'Remarks / Additional Info' }
 		}
 	},
-	// Gift
+	// Gift Stock
 	9: {
-		name: 'Gift',
+		name: 'Gift Stock',
 		identifierLabel: 'Reference',
 		identifierField: 'serial_number',
 		fields: {

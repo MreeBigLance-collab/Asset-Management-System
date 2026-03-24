@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import api from '../../../api/axios';
 import styles from './Forms.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getListRouteByCategory } from '../config/categoryMasters';
 
 const formatDate = d => {
 	if (!d) return '';
@@ -67,7 +68,7 @@ export default function ITEquipmentForm() {
 		try {
 			if (id) await api.updateAsset(id, payload);
 			else await api.createAsset(payload);
-			nav('/assets');
+			nav(getListRouteByCategory(model.categoryId));
 		} catch (err) {
 			console.error('Error saving asset:', err);
 			alert('Error saving asset. Please try again.');
@@ -178,7 +179,7 @@ export default function ITEquipmentForm() {
 
 			<div className={styles.buttonGroup}>
 				<button type="submit" className={styles.submitBtn}>{id ? 'Update Equipment' : 'Add Equipment'}</button>
-				<button type="button" onClick={() => nav('/assets')} className={styles.cancelBtn}>Cancel</button>
+				<button type="button" onClick={() => nav(getListRouteByCategory(model.categoryId))} className={styles.cancelBtn}>Cancel</button>
 			</div>
 		</form>
 	);

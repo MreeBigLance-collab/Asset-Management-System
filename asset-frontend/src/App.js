@@ -27,6 +27,12 @@ function App() {
 		return <ViewFactory categoryId={id} />;
 	}
 
+	function LegacyEditRedirect() {
+		const { id } = useParams();
+		const mode = window.location.pathname.includes('/office-stock') ? 'stock' : 'asset';
+		return <Navigate to={`/assets/${id}/edit?mode=${mode}`} replace />;
+	}
+
 	return (
 		<div className="App">
 			<Routes>
@@ -36,9 +42,14 @@ function App() {
 				<Route path="/home" element={<Private><HomePage /></Private>} />
 				<Route path="/dashboard" element={<Private><LayoutWithNav><DashboardPage /></LayoutWithNav></Private>} />
 				<Route path="/assets" element={<Private><LayoutWithNav><AssetPage /></LayoutWithNav></Private>} />
-				{/* New / Edit asset routes now use FormFactory which routes to category-specific forms */}
+				<Route path="/office-assets" element={<Navigate to="/assets?mode=asset" replace />} />
+				<Route path="/office-stock" element={<Navigate to="/assets?mode=stock" replace />} />
 				<Route path="/assets/new" element={<Private><LayoutWithNav><FormFactory /></LayoutWithNav></Private>} />
+				<Route path="/office-assets/new" element={<Navigate to="/assets/new?mode=asset" replace />} />
+				<Route path="/office-stock/new" element={<Navigate to="/assets/new?mode=stock" replace />} />
 				<Route path="/assets/:id/edit" element={<Private><LayoutWithNav><FormFactory /></LayoutWithNav></Private>} />
+				<Route path="/office-assets/:id/edit" element={<LegacyEditRedirect />} />
+				<Route path="/office-stock/:id/edit" element={<LegacyEditRedirect />} />
 				{/* Category-specific list views (optional) - use ViewFactory to render category views */}
 				<Route path="/assets/category/:categoryId" element={<Private><LayoutWithNav><CategoryViewWrapper /></LayoutWithNav></Private>} />
 				

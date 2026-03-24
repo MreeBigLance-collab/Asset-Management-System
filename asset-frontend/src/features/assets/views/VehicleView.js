@@ -49,7 +49,7 @@ export default function VehicleView() {
 					onChange={e => setSearchTerm(e.target.value)}
 					className={styles.searchInput}
 				/>
-				<Link to="/assets/new?category=6" className={styles.addBtn}>+ Add Vehicle</Link>
+				<Link to="/office-assets/new?category=6" className={styles.addBtn}>+ Add Vehicle</Link>
 			</div>
 
 			{selectedAsset && (
@@ -95,7 +95,7 @@ export default function VehicleView() {
 						</div>
 					</div>
 					<div className={styles.detailActions}>
-						<Link to={`/assets/edit/${selectedAsset.id}`} className={styles.editBtn}>Edit</Link>
+						<Link to={`/office-assets/${selectedAsset.id}/edit`} className={styles.editBtn}>Edit</Link>
 						<button onClick={() => setSelectedAsset(null)} className={styles.closeDetailBtn}>Close</button>
 					</div>
 				</div>
@@ -105,7 +105,7 @@ export default function VehicleView() {
 				{assets.length === 0 ? (
 					<div className={styles.noData}>
 						<p>📦 No vehicles found</p>
-						<Link to="/assets/new?category=6" className={styles.addBtnSmall}>Add First Vehicle</Link>
+						<Link to="/office-assets/new?category=6" className={styles.addBtnSmall}>Add First Vehicle</Link>
 					</div>
 				) : (
 					<table className={styles.table}>
@@ -148,7 +148,7 @@ export default function VehicleView() {
 									</td>
 									<td>
 										<button onClick={() => setSelectedAsset(a)} className={styles.viewBtn}>View</button>
-										<Link to={`/assets/edit/${a.id}`} className={styles.editLink}>Edit</Link>
+										<Link to={`/office-assets/${a.id}/edit`} className={styles.editLink}>Edit</Link>
 									</td>
 								</tr>
 							))}

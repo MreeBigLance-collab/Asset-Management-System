@@ -1,32 +1,14 @@
+import {
+	CATEGORY_MASTERS,
+	SUBCATEGORY_MASTERS,
+	isStockCategory
+} from '../features/assets/config/categoryMasters';
+
 const delay = (ms = 200) => new Promise(r => setTimeout(r, ms));
 
-const categories = [
-	{ id: 1, name: 'IT & Electronic Equipment', key: 'ITE' },
-	{ id: 2, name: 'Office Furniture', key: 'OFF' },
-	{ id: 3, name: 'Office Equipment', key: 'OFE' },
-	{ id: 4, name: 'Security & Facilities', key: 'SEC' },
-	{ id: 5, name: 'Pantry Equipment', key: 'PAN' },
-	{ id: 6, name: 'Vehicle', key: 'VEH' },
-	{ id: 7, name: 'Stationery & Supplies', key: 'STA' },
-	{ id: 8, name: 'Miscellaneous', key: 'MIS' },
-	{ id: 9, name: 'Gift', key: 'GIF' }
-];
+const categories = CATEGORY_MASTERS;
 
-const subcategories = [
-	{ id: 1, categoryId: 6, name: 'Car' },
-	{ id: 2, categoryId: 6, name: 'Van' },
-	{ id: 3, categoryId: 6, name: 'Motorcycle' },
-	{ id: 4, categoryId: 6, name: 'Lorry' },
-	{ id: 5, categoryId: 6, name: 'Bus' },
-	{ id: 6, categoryId: 1, name: 'Laptop' },
-	{ id: 7, categoryId: 1, name: 'Desktop' },
-	{ id: 8, categoryId: 7, name: 'Staples' },
-	{ id: 9, categoryId: 7, name: 'Paper Shredder' },
-	{ id: 10, categoryId: 8, name: 'Company Mobile Phone' },
-	{ id: 11, categoryId: 9, name: 'Corporate Gift' },
-	{ id: 12, categoryId: 9, name: 'Merchandise' },
-	{ id: 13, categoryId: 9, name: 'Hamper' }
-];
+const subcategories = SUBCATEGORY_MASTERS;
 
 let assets = [
 	{
@@ -126,7 +108,6 @@ const api = {
 
 	async getSummary() {
 		await delay();
-		const isStockCategory = (catId) => [5, 7, 8, 9].includes(catId);
 		const byCat = {};
 		
 		for (const a of assets) {

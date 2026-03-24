@@ -161,6 +161,33 @@
 	font-weight: 500;
 }
 
+.scopeSwitch {
+	display: inline-flex;
+	background: var(--bg);
+	border: 1px solid var(--muted);
+	border-radius: 10px;
+	padding: 4px;
+	gap: 4px;
+	margin-bottom: 22px;
+}
+
+.scopeButton {
+	height: var(--btn-height);
+	padding: 0 16px;
+	background: transparent;
+	border: none;
+	border-radius: 8px;
+	color: var(--text);
+	font-size: var(--btn-font-size);
+	font-weight: var(--btn-font-weight);
+	cursor: pointer;
+}
+
+.scopeButtonActive {
+	background: var(--primary);
+	color: var(--on-primary);
+}
+
 .categoryGrid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
