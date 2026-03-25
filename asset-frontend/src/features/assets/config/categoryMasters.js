@@ -4,10 +4,8 @@ export const MAJOR_CATEGORY = {
 };
 
 export const CATEGORY_MASTERS = [
-	{ id: 1, name: 'Office Equipment & IT Gadgets', key: 'ITE', majorCategory: MAJOR_CATEGORY.ASSET },
+	{ id: 1, name: 'Office Technology & Infrastructure', key: 'OTI', majorCategory: MAJOR_CATEGORY.ASSET },
 	{ id: 2, name: 'Furniture', key: 'FUR', majorCategory: MAJOR_CATEGORY.ASSET },
-	{ id: 3, name: 'Electronics & Electrical', key: 'ELE', majorCategory: MAJOR_CATEGORY.ASSET },
-	{ id: 4, name: 'Security & Facilities', key: 'SEC', majorCategory: MAJOR_CATEGORY.ASSET },
 	{ id: 5, name: 'Pantry Stock', key: 'PAN', majorCategory: MAJOR_CATEGORY.STOCK },
 	{ id: 6, name: 'Vehicles', key: 'VEH', majorCategory: MAJOR_CATEGORY.ASSET },
 	{ id: 7, name: 'Office Stationery Stock', key: 'STA', majorCategory: MAJOR_CATEGORY.STOCK },
@@ -27,17 +25,24 @@ export const SUBCATEGORY_MASTERS = [
 	{ id: 9, categoryId: 1, name: 'Printer' },
 	{ id: 10, categoryId: 2, name: 'Fixed Furniture (Cabinet, Hanging Cabinet)' },
 	{ id: 11, categoryId: 2, name: 'Movable Furniture (Chair, Table)' },
-	{ id: 12, categoryId: 3, name: 'Air Conditioner' },
-	{ id: 13, categoryId: 3, name: 'Appliances' },
-	{ id: 14, categoryId: 3, name: 'Electrical Equipment (Bulb, Cable)' },
-	{ id: 15, categoryId: 4, name: 'CCTV' },
-	{ id: 16, categoryId: 4, name: 'Access Control' },
+	{ id: 12, categoryId: 1, name: 'Air Conditioner' },
+	{ id: 13, categoryId: 1, name: 'Appliances' },
+	{ id: 14, categoryId: 1, name: 'Electrical Equipment (Bulb, Cable)' },
+	{ id: 15, categoryId: 1, name: 'CCTV' },
+	{ id: 16, categoryId: 1, name: 'Access Control' },
 	{ id: 17, categoryId: 5, name: 'Snacks' },
 	{ id: 18, categoryId: 5, name: 'Pantry Consumables' },
 	{ id: 19, categoryId: 7, name: 'Stationery Stock' },
 	{ id: 20, categoryId: 8, name: 'Merchandise (Pen, Speaker, Bag)' },
 	{ id: 21, categoryId: 9, name: 'Gift Set / Hamper' }
 ];
+
+// Legacy support: categories 3 and 4 are merged into category 1.
+const LEGACY_MERGED_ASSET_CATEGORY_IDS = [3, 4];
+
+export const normalizeMergedAssetCategoryId = categoryId => (
+	LEGACY_MERGED_ASSET_CATEGORY_IDS.includes(Number(categoryId)) ? 1 : Number(categoryId)
+);
 
 export const ASSET_CATEGORY_IDS = CATEGORY_MASTERS
 	.filter(category => category.majorCategory === MAJOR_CATEGORY.ASSET)
@@ -47,13 +52,15 @@ export const STOCK_CATEGORY_IDS = CATEGORY_MASTERS
 	.filter(category => category.majorCategory === MAJOR_CATEGORY.STOCK)
 	.map(category => category.id);
 
-export const isStockCategory = categoryId => STOCK_CATEGORY_IDS.includes(Number(categoryId));
+export const isStockCategory = categoryId => STOCK_CATEGORY_IDS.includes(normalizeMergedAssetCategoryId(categoryId));
 
-export const isAssetCategory = categoryId => ASSET_CATEGORY_IDS.includes(Number(categoryId));
+export const isAssetCategory = categoryId => ASSET_CATEGORY_IDS.includes(normalizeMergedAssetCategoryId(categoryId));
 
 export const getCategoryScopeByPathname = pathname => {
 	if (pathname.includes('/office-stock')) return MAJOR_CATEGORY.STOCK;
 	return MAJOR_CATEGORY.ASSET;
 };
 
-export const getListRouteByCategory = categoryId => isStockCategory(categoryId) ? '/office-stock' : '/office-assets';
+export const getListRouteByCategory = categoryId => (
+	isStockCategory(categoryId) ? '/assets?mode=stock' : '/assets?mode=asset'
+);

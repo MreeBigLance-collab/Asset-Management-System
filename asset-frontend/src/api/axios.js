@@ -1,7 +1,8 @@
 import {
 	CATEGORY_MASTERS,
 	SUBCATEGORY_MASTERS,
-	isStockCategory
+	isStockCategory,
+	normalizeMergedAssetCategoryId
 } from '../features/assets/config/categoryMasters';
 
 const delay = (ms = 200) => new Promise(r => setTimeout(r, ms));
@@ -63,13 +64,20 @@ const api = {
 
 	async getSubcategories(categoryId) {
 		await delay();
-		return subcategories.filter(s => s.categoryId === Number(categoryId));
+		const normalizedCategoryId = normalizeMergedAssetCategoryId(categoryId);
+		return subcategories.filter(s => s.categoryId === normalizedCategoryId);
 	},
 
 	async getAssets({ q = '', categoryId = '', assignedTo = '' } = {}) {
 		await delay();
-		let res = assets.slice();
-		if (categoryId) res = res.filter(a => String(a.categoryId) === String(categoryId));
+		let res = assets.map(asset => ({
+			...asset,
+			categoryId: normalizeMergedAssetCategoryId(asset.categoryId)
+		}));
+		if (categoryId) {
+			const normalizedCategoryId = normalizeMergedAssetCategoryId(categoryId);
+			res = res.filter(a => Number(a.categoryId) === normalizedCategoryId);
+		}
 		if (assignedTo) res = res.filter(a => (a.assigned_to || '').toLowerCase().includes(assignedTo.toLowerCase()));
 		if (q) {
 			const qq = q.toLowerCase();
@@ -84,16 +92,26 @@ const api = {
 
 	async getAssetById(id) {
 		await delay();
-		return assets.find(a => a.id === id);
+		const item = assets.find(a => a.id === id);
+		if (!item) return null;
+		return {
+			...item,
+			categoryId: normalizeMergedAssetCategoryId(item.categoryId)
+		};
 	},
 
 	async createAsset(payload) {
 		await delay();
+		const normalizedCategoryId = normalizeMergedAssetCategoryId(payload.categoryId);
+		const normalizedPayload = {
+			...payload,
+			categoryId: normalizedCategoryId
+		};
 		const idx = assets.length + 1;
-		const prefix = (categories.find(c => c.id === Number(payload.categoryId))?.key || 'GEN') + '-' +
-			(subcategories.find(s => s.id === Number(payload.subcategoryId))?.name.toUpperCase().slice(0,3) || 'XXX');
+		const prefix = (categories.find(c => c.id === Number(normalizedPayload.categoryId))?.key || 'GEN') + '-' +
+			(subcategories.find(s => s.id === Number(normalizedPayload.subcategoryId))?.name.toUpperCase().slice(0,3) || 'XXX');
 		const id = `${prefix}-${String(idx).padStart(3, '0')}`;
-		const item = { id, ...payload };
+		const item = { id, ...normalizedPayload };
 		assets.push(item);
 		return item;
 	},
@@ -102,7 +120,11 @@ const api = {
 		await delay();
 		const i = assets.findIndex(a => a.id === id);
 		if (i === -1) throw new Error('Not found');
-		assets[i] = { ...assets[i], ...payload };
+		assets[i] = {
+			...assets[i],
+			...payload,
+			categoryId: normalizeMergedAssetCategoryId(payload.categoryId ?? assets[i].categoryId)
+		};
 		return assets[i];
 	},
 

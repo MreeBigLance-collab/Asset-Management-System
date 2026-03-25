@@ -78,16 +78,16 @@ export default function ITEquipmentForm() {
 	return (
 		<form className={styles.form} onSubmit={submit}>
 			<div className={styles.formHeader}>
-				<h3>{id ? 'Edit IT Equipment' : 'Add IT Equipment'}</h3>
-				<p className={styles.categoryTag}>💻 IT & Electronic Equipment</p>
+				<h3>{id ? 'Edit Office Technology Asset' : 'Add Office Technology Asset'}</h3>
+				<p className={styles.categoryTag}>💻 Office Technology & Infrastructure</p>
 			</div>
 
 			<div className={styles.formGroup}>
-				<label>Equipment Type *</label>
+				<label>Equipment / System Type *</label>
 				<select value={model.subcategoryId} onChange={e => {
 					setModel({ ...model, subcategoryId: e.target.value, asset_name: e.target.selectedOptions[0]?.text });
 				}} required>
-					<option value="">Select Equipment Type</option>
+					<option value="">Select Type</option>
 					{subs.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
 				</select>
 			</div>

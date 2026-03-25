@@ -6,8 +6,6 @@ import styles from './Forms.module.css';
 import VehicleForm from './VehicleForm';
 import ITEquipmentForm from './ITEquipmentForm';
 import OfficeFurnitureForm from './OfficeFurnitureForm';
-import OfficeEquipmentForm from './OfficeEquipmentForm';
-import SecurityFacilitiesForm from './SecurityFacilitiesForm';
 import PantryEquipmentForm from './PantryEquipmentForm';
 import StationerySuppliesForm from './StationerySuppliesForm';
 import MiscellaneousForm from './MiscellaneousForm';
@@ -15,15 +13,14 @@ import GiftForm from './GiftForm';
 import api from '../../../api/axios';
 import {
 	MAJOR_CATEGORY,
-	CATEGORY_MASTERS
+	CATEGORY_MASTERS,
+	normalizeMergedAssetCategoryId
 } from '../config/categoryMasters';
 
 // Form component mapping
 const formComponents = {
-	1: { name: 'Office Equipment & IT Gadgets', component: ITEquipmentForm, icon: '💻' },
+	1: { name: 'Office Technology & Infrastructure', component: ITEquipmentForm, icon: '💻' },
 	2: { name: 'Furniture', component: OfficeFurnitureForm, icon: '🪑' },
-	3: { name: 'Electronics & Electrical', component: OfficeEquipmentForm, icon: '🖨️' },
-	4: { name: 'Security & Facilities', component: SecurityFacilitiesForm, icon: '🔒' },
 	5: { name: 'Pantry Stock', component: PantryEquipmentForm, icon: '☕' },
 	6: { name: 'Vehicles', component: VehicleForm, icon: '🚗' },
 	7: { name: 'Office Stationery Stock', component: StationerySuppliesForm, icon: '📎' },
@@ -77,7 +74,7 @@ export default function FormFactory() {
 		const categoryParam = searchParams.get('category');
 		
 		if (categoryParam) {
-			const parsedCategory = parseInt(categoryParam, 10);
+			const parsedCategory = normalizeMergedAssetCategoryId(parseInt(categoryParam, 10));
 			const categoryMaster = CATEGORY_MASTERS.find(category => category.id === parsedCategory);
 			if (categoryMaster && categoryMaster.majorCategory === scope) {
 				setSelectedCategory(parsedCategory);
@@ -89,9 +86,10 @@ export default function FormFactory() {
 			setLoading(true);
 			api.getAssetById(id).then(asset => {
 				if (asset) {
-					const categoryMaster = CATEGORY_MASTERS.find(category => category.id === Number(asset.categoryId));
+					const normalizedCategoryId = normalizeMergedAssetCategoryId(asset.categoryId);
+					const categoryMaster = CATEGORY_MASTERS.find(category => category.id === normalizedCategoryId);
 					if (categoryMaster) setScope(categoryMaster.majorCategory);
-					setSelectedCategory(asset.categoryId);
+					setSelectedCategory(normalizedCategoryId);
 				}
 				setLoading(false);
 			}).catch(err => {

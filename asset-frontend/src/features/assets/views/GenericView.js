@@ -50,7 +50,7 @@ export default function GenericView({ categoryId, categoryName, categoryIcon, ca
 					onChange={e => setSearchTerm(e.target.value)}
 					className={styles.searchInput}
 				/>
-				<Link to={`/office-assets/new?category=${categoryId}`} className={styles.addBtn}>+ Add Asset</Link>
+				<Link to={`/assets/new?mode=asset&category=${categoryId}`} className={styles.addBtn}>+ Add Asset</Link>
 			</div>
 
 			{selectedAsset && (
@@ -100,7 +100,7 @@ export default function GenericView({ categoryId, categoryName, categoryIcon, ca
 						</div>
 					</div>
 					<div className={styles.detailActions}>
-						<Link to={`/office-assets/${selectedAsset.id}/edit`} className={styles.editBtn}>Edit</Link>
+						<Link to={`/assets/${selectedAsset.id}/edit?mode=asset`} className={styles.editBtn}>Edit</Link>
 						<button onClick={() => setSelectedAsset(null)} className={styles.closeDetailBtn}>Close</button>
 					</div>
 				</div>
@@ -110,7 +110,7 @@ export default function GenericView({ categoryId, categoryName, categoryIcon, ca
 				{assets.length === 0 ? (
 					<div className={styles.noData}>
 						<p>📦 No assets found</p>
-						<Link to={`/office-assets/new?category=${categoryId}`} className={styles.addBtnSmall}>Add First Asset</Link>
+						<Link to={`/assets/new?mode=asset&category=${categoryId}`} className={styles.addBtnSmall}>Add First Asset</Link>
 					</div>
 				) : (
 					<table className={styles.table}>
@@ -153,7 +153,7 @@ export default function GenericView({ categoryId, categoryName, categoryIcon, ca
 									</td>
 									<td>
 										<button onClick={() => setSelectedAsset(a)} className={styles.viewBtn}>View</button>
-										<Link to={`/office-assets/${a.id}/edit`} className={styles.editLink}>Edit</Link>
+										<Link to={`/assets/${a.id}/edit?mode=asset`} className={styles.editLink}>Edit</Link>
 									</td>
 								</tr>
 							))}

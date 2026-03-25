@@ -10,14 +10,13 @@ import VehicleView from './VehicleView';
  */
 
 const viewConfigs = {
-	1: { name: 'IT & Electronic Equipment', icon: '💻', color: '#4CAF50', component: GenericView },
-	2: { name: 'Office Furniture', icon: '🪑', color: '#FF9800', component: GenericView },
-	3: { name: 'Office Equipment', icon: '🖨️', color: '#2196F3', component: GenericView },
-	4: { name: 'Security & Facilities', icon: '🔒', color: '#F44336', component: GenericView },
-	5: { name: 'Pantry Equipment', icon: '☕', color: '#9C27B0', component: GenericView },
-	6: { name: 'Vehicle', icon: '🚗', color: '#FF5722', component: VehicleView }, // Custom view
-	7: { name: 'Stationery & Supplies', icon: '📎', color: '#00BCD4', component: GenericView },
-	8: { name: 'Miscellaneous', icon: '📦', color: '#607D8B', component: GenericView }
+	1: { name: 'Office Technology & Infrastructure', icon: '💻', color: '#4CAF50', component: GenericView },
+	2: { name: 'Furniture', icon: '🪑', color: '#FF9800', component: GenericView },
+	5: { name: 'Pantry Stock', icon: '☕', color: '#9C27B0', component: GenericView },
+	6: { name: 'Vehicles', icon: '🚗', color: '#FF5722', component: VehicleView }, // Custom view
+	7: { name: 'Office Stationery Stock', icon: '📎', color: '#00BCD4', component: GenericView },
+	8: { name: 'Merchandise Stock', icon: '📦', color: '#607D8B', component: GenericView },
+	9: { name: 'Gift Stock', icon: '🎁', color: '#8E44AD', component: GenericView }
 };
 
 export default function ViewFactory({ categoryId }) {

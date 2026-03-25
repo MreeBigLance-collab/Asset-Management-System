@@ -2,9 +2,9 @@
 // Defines which fields should be visible/required for each asset category
 
 export const categoryFieldConfig = {
-	// Office Equipment & IT Gadgets
+	// Office Technology & Infrastructure
 	1: {
-		name: 'Office Equipment & IT Gadgets',
+		name: 'Office Technology & Infrastructure',
 		identifierLabel: 'Serial Number',
 		identifierField: 'serial_number',
 		fields: {
@@ -34,9 +34,9 @@ export const categoryFieldConfig = {
 			remarks: { required: false, label: 'Condition / Remarks' }
 		}
 	},
-	// Electronics & Electrical
+	// Legacy alias: Electronics & Electrical (merged into category 1)
 	3: {
-		name: 'Electronics & Electrical',
+		name: 'Office Technology & Infrastructure',
 		identifierLabel: 'Serial Number',
 		identifierField: 'serial_number',
 		fields: {
@@ -50,20 +50,20 @@ export const categoryFieldConfig = {
 			remarks: { required: false, label: 'Remarks / Additional Info' }
 		}
 	},
-	// Security & Facilities
+	// Legacy alias: Security & Facilities (merged into category 1)
 	4: {
-		name: 'Security & Facilities',
-		identifierLabel: 'Serial/Model Number',
+		name: 'Office Technology & Infrastructure',
+		identifierLabel: 'Serial Number',
 		identifierField: 'serial_number',
 		fields: {
 			brand_model: { required: true, label: 'Brand / Model' },
-			serial_number: { required: false, label: 'Serial/Model Number' },
-			purchase_date: { required: true, label: 'Installation Date' },
+			serial_number: { required: true, label: 'Serial Number' },
+			purchase_date: { required: true, label: 'Purchase Date' },
 			cost_rm: { required: true, label: 'Cost (RM)' },
-			location_department: { required: true, label: 'Installation Location' },
-			assigned_to: { required: false, label: 'Responsible Person' },
+			location_department: { required: true, label: 'Location / Department' },
+			assigned_to: { required: true, label: 'Assign To' },
 			condition_status: { required: true, label: 'Condition Status' },
-			remarks: { required: false, label: 'Maintenance Notes' }
+			remarks: { required: false, label: 'Remarks / Additional Info' }
 		}
 	},
 	// Pantry Stock
